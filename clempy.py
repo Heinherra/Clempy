@@ -1,4 +1,5 @@
 import discord
+import json
 
 class Clempy(discord.Client):
     async def on_ready(self):
