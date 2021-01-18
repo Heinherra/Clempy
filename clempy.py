@@ -13,6 +13,6 @@ class Clempy(discord.Client):
             await message.channel.send("pong")
 
 client = Clempy()
-client.run("NTY3MjI3NDU1Mzg0MDU5OTA0.XLQduw.2SnMpTmtIWhC1bwE1qoIc6ycG4c")
+
 
 
