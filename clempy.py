@@ -61,9 +61,9 @@ args = parser.parse_args()
 client = Clempy()
 
 try:
+	print("Trying to start bot in " + args.key + " mode...")
 	client.run(keys[args.key])
 except:
 	print("Couldn't start client with key")
-#client.run("NTY3MjI3NDU1Mzg0MDU5OTA0.XLQduw.YS2lLnYlbl1db-uuE3m_B44Ouno")
 
 
