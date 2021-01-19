@@ -1,18 +1,15 @@
-t = 0
-
 try:
-        instance
-         
+	instance
 except NameError:
-        instance = None
-def set_instance(module):
-	global instance
-	instance = module
+		instance = None
 
-def other_test():
-	instance.test()
+client = None
 
-def test():
-    global t
-    t += 1
-    print("Test from B")
+async def on_load(c):
+	global client
+	client = c
+
+async def on_message(message):
+	if message.author != client.user:
+		await message.channel.send("ponging from B")
+

@@ -1,26 +1,12 @@
-import sys
-#print(sys.path)
-#sys.path.insert(1,sys.path[0])
+#import sys
+#from modules.webhook import moduleB as B
+client = None
 
-from modules.webhook import moduleB as B
+async def on_load(c):
+	global client
+	client = c
 
-
-try:
-        instance
-        t
-except NameError:
-        t = 0
-        instance = None
-
-def set_instance(module):
-	global instance
-	instance = module
-
-def other_test():
-	instance.test()
-
-def test():
-    global t
-    t += 1
-    print("Test from A")
+async def on_message(message):
+	if message.author != client.user:
+		await message.channel.send("ponging from A")
 
