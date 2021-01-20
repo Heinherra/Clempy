@@ -1,56 +1,33 @@
-import importlib as imp
 import glob
+import importlib as imp
+import json
+import argparse
+import clempy
+import saveload
 
 modules = []
-
 sep = "\\"
-
 moduleNames = [f.replace("modules" + sep,"").replace(".py","") for f in glob.glob("modules"+sep+ "**"+ sep+ "*.py")]
-
 tempNames = [name for name in moduleNames if not name.startswith("__") ]
 moduleNames = tempNames
+#moduleDictionary = {} 
 
 for name in moduleNames:
-        module = imp.import_module('modules.' + name.replace(sep,"."))
-        modules.append(module)
+	module = imp.import_module('modules.' + name.replace(sep,"."))
+	modules.append(module)
+	#moduleDictionary[module.__name__] = module
+	print("Loaded module " + module.__name__ )
 
-def main():
-        for module in modules:
-                call(module,"test")
-        
-        modules[0].set_instance(modules[1])
-        modules[1].set_instance(modules[0])
-        
-        for module in modules:
-                call(module,"other_test")
-        
-        for i in range(len(modules)):
-                modules[i] = imp.reload(modules[i])
+keys = {}
 
-        for module in modules:
-                call(module,"other_test")
-        
-        
-        input()
-        for i in range(len(modules)):
-                modules[i] = imp.reload(modules[i])
-        for module in modules:
-                call(module,"test")
-        
-        modules[0].n = lambda x : x + 1
-        print(modules[0].n(1))
+with open ('keys.json') as key_file:
+	keys = json.load(key_file)
 
-def reimport(moduleNumber):
-    modules[moduleNumber] = imp.import_module('modules.' + name.replace(sep,"."))
+parser = argparse.ArgumentParser()
+parser.add_argument("--key",type=str,help="Bot will start in either 'master' 'beta' or 'dump' mode. Default is 'beta'",default="beta")
+args = parser.parse_args()
 
+print("Trying to start bot in " + args.key + " mode...")
 
-def catch():
-        print("No such attribute")
-
-def call(module ,function):
-        print("Calling " + function)
-        getattr(module, function, catch)()
-        print()
-
-main()
+clempy.init_client(modules,keys[args.key])
 
